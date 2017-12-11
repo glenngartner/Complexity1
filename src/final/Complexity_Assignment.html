@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <title>﻿Algorithm Complexity Assignment 2</title>
+    <link type="text/css" rel="stylesheet" href="assets/css/github-markdown.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/pilcrow.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/hljs-github.min.css"/>
+  </head>
+  <body>
+    <article class="markdown-body"><h2 id="algorithm-complexity-assignment-2"><a class="header-link" href="#algorithm-complexity-assignment-2"></a>﻿Algorithm Complexity Assignment 2</h2>
+<ol class="list">
+<li><p>The big O notation is Constant O(1).</p>
+<pre class="hljs"><code> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">goodbye_world</span><span class="hljs-params">(n)</span></span>
+ puts <span class="hljs-string">"Goodbye World! <span class="hljs-subst">#{n}</span>"</span> <span class="hljs-comment"># only executes this once, despite the size of n</span>
+ <span class="hljs-keyword">end</span></code></pre></li>
+<li><p>The big O notation is linear, nearly O(2N), which is the same complexity as O(N).</p>
+<pre class="hljs"><code> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_largest</span><span class="hljs-params">(collection)</span></span>
+  largest = collection[<span class="hljs-number">0</span>] <span class="hljs-comment"># only runs once (constant)</span>
+  collection.length.times <span class="hljs-keyword">do</span> <span class="hljs-params">|i|</span> <span class="hljs-comment"># runs for every element of collection O(N)</span>
+    <span class="hljs-keyword">if</span> collection[i] &gt;= largest <span class="hljs-comment"># worst case, this runs for every element after 0, so another O(N)</span>
+      largest = collection[i]
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+  largest
+ <span class="hljs-keyword">end</span></code></pre></li>
+<li><p>The big O notation is O(N^2).</p>
+<pre class="hljs"><code>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_largest</span><span class="hljs-params">(collection)</span></span>
+ largest = collection[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] <span class="hljs-comment"># only runs once (constant) O(1) - negligible, considering greater complexity</span>
+ collection.length.times <span class="hljs-keyword">do</span> <span class="hljs-params">|i|</span> <span class="hljs-comment"># runs for every element of collection, linear, O(N)</span>
+   subcollection = collection[i] <span class="hljs-comment"># runs once (constant) O(1) - negligible, considering greater complexity</span>
+   subcollection.length.times <span class="hljs-keyword">do</span> <span class="hljs-params">|i|</span> <span class="hljs-comment"># runs for every element in the second array, linear, O(N) - makes N^2.</span>
+     <span class="hljs-keyword">if</span> subcollection[i] &gt;= largest <span class="hljs-comment"># may run for every element in the sub array, worst case O(N) - makes 2N^2 (I think) - same as N^2.</span>
+       largest = subcollection[i]
+     <span class="hljs-keyword">end</span>
+   <span class="hljs-keyword">end</span>
+ <span class="hljs-keyword">end</span>
+ largest
+<span class="hljs-keyword">end</span></code></pre></li>
+<li><p>The big O notation is O(2^(N)).</p>
+<pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">numbers</span><span class="hljs-params">(n)</span></span>
+  <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>) <span class="hljs-comment"># runs once. if it does, returns out of function - constant O(1)</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+  <span class="hljs-keyword">elsif</span> (n == <span class="hljs-number">1</span>) <span class="hljs-comment"># runs once. if it does, returns out of function - constant O(1)</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>
+  <span class="hljs-keyword">else</span> <span class="hljs-comment"># </span>
+    <span class="hljs-keyword">return</span> numbers(n-<span class="hljs-number">1</span>) + numbers(n-<span class="hljs-number">2</span>) <span class="hljs-comment"># it calls itself twice 2, and multiples times, depending on the size of N, caused O(2^N)?</span>
+  <span class="hljs-keyword">end</span>
+ <span class="hljs-keyword">end</span></code></pre></li>
+<li><p>The big O notation is O(N);</p>
+<pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">iterative</span><span class="hljs-params">(n)</span></span>
+ num1 = <span class="hljs-number">0</span> <span class="hljs-comment"># constant O(1)</span>
+ num2 = <span class="hljs-number">1</span> <span class="hljs-comment"># constant O(1)</span>
+
+ i = <span class="hljs-number">0</span> <span class="hljs-comment"># constant O(1)</span>
+ <span class="hljs-keyword">while</span> i &lt; n-<span class="hljs-number">1</span> <span class="hljs-comment"># runs n times (actually, n-1, but we forget the -1)</span>
+   tmp = num1 + num2 <span class="hljs-comment"># constant</span>
+   num1 = num2 <span class="hljs-comment"># constant</span>
+   num2 = tmp <span class="hljs-comment"># const</span>
+   i+=<span class="hljs-number">1</span> <span class="hljs-comment"># const</span>
+ <span class="hljs-keyword">end</span>
+
+ num2
+<span class="hljs-keyword">end</span></code></pre></li>
+<li><p>The big O complexity is 2N^N</p>
+<pre class="hljs"><code> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sort</span><span class="hljs-params">(collection, from=<span class="hljs-number">0</span>, to=<span class="hljs-literal">nil</span>)</span></span>
+  <span class="hljs-keyword">if</span> to == <span class="hljs-literal">nil</span> <span class="hljs-comment"># constant, or less than </span>
+    <span class="hljs-comment"># Sort the whole collection, by default</span>
+    to = collection.count - <span class="hljs-number">1</span> <span class="hljs-comment"># constant</span>
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-keyword">if</span> from &gt;= to <span class="hljs-comment"># constant, or less than</span>
+    <span class="hljs-comment"># Done sorting</span>
+    <span class="hljs-keyword">return</span>
+  <span class="hljs-keyword">end</span>
+
+  <span class="hljs-comment"># Take a pivot value, at the far left</span>
+  pivot = collection[from] <span class="hljs-comment"># constant</span>
+
+  <span class="hljs-comment"># Min and Max pointers</span>
+  min = from <span class="hljs-comment"># constant</span>
+  max = to <span class="hljs-comment"># constant</span>
+
+  <span class="hljs-comment"># Current free slot</span>
+  free = min <span class="hljs-comment"># constant</span>
+
+  <span class="hljs-keyword">while</span> min &lt; max <span class="hljs-comment"># depends on the values of min and max (from and to)- so, N</span>
+    <span class="hljs-keyword">if</span> free == min <span class="hljs-comment"># Evaluate collection[max]</span>
+      <span class="hljs-keyword">if</span> collection[max] &lt;= pivot <span class="hljs-comment"># Smaller than pivot, must move</span>
+        collection[free] = collection[max]
+        min += <span class="hljs-number">1</span>
+        free = max
+      <span class="hljs-keyword">else</span>
+        max -= <span class="hljs-number">1</span>
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">elsif</span> free == max <span class="hljs-comment"># Evaluate collection[min]</span>
+      <span class="hljs-keyword">if</span> collection[min] &gt;= pivot <span class="hljs-comment"># Bigger than pivot, must move</span>
+        collection[free] = collection[min]
+        max -= <span class="hljs-number">1</span>
+        free = min
+      <span class="hljs-keyword">else</span>
+        min += <span class="hljs-number">1</span>
+      <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">else</span>
+      raise <span class="hljs-string">"Inconsistent state"</span>
+    <span class="hljs-keyword">end</span>
+  <span class="hljs-keyword">end</span>
+
+  collection[free] = pivot <span class="hljs-comment"># constant</span>
+
+  sort collection, from, free - <span class="hljs-number">1</span> <span class="hljs-comment"># recursive, causes ^N</span>
+  sort collection, free + <span class="hljs-number">1</span>, to <span class="hljs-comment"># 2 second recursion, adds 2 in front of the base N.</span>
+
+  collection
+ <span class="hljs-keyword">end</span></code></pre></li>
+</ol>
+    </article>
+  </body>
+</html>
