@@ -1,61 +1,128 @@
-﻿Algorithm Complexity Assignment 1
+﻿Algorithm Complexity Assignment 2
 --
-1. An algorithm that has O(1) is a mix-master, and an algorithm that has O(2^n) is a hand operated whisk, mixing wet cement, that slowly hardens into a cement-cicle, with a whisk for a stick.
 
-2. The best case scenario for binary search is that the item being searched for is the first item in the search index (ie: the first place you look). That's a complexity of 0(1) . In the case of binary search, where a 50-50 split is used to divide the list, that’s the middle item of the list.
+1. The big O notation is Constant O(1).
 
-3. The worst case scenario for binary search is a time complexity of O(logN), where the last element in a half is the item you're looking for.
-
-4. The bounded case scenario for binary search is O(logN).
-
-5. Graph of the source .csv data:
-    ![See chart](../5_Source_Data_Graph.png)
-
-6. The limit of the function as it approaches infinity is infinity.
-
-7. The complexity is O(N^2)
-
-8. See function in main.cpp. It looks something like this:
-
-    ```cpp
-    float binaryWorstCase(int n) {
-    return log(n);
-    }
+    ```rb
+    def goodbye_world(n)
+    puts "Goodbye World! #{n}" # only executes this once, despite the size of n
+    end
     ```
 
-    - I printed a list of values to a CSV file to make the graph, like this: 
+2. The big O notation is linear, nearly O(2N), which is the same complexity as O(N).
 
-    ```cpp
-    int main() {
-        // how many lines to print
-        int num = 200;
-    
-        // open (or create, if it doesn't exist) the file that contains 
-        // the output data
-        ofstream myFile;
-        myFile.open("../src/output.csv");
-    
-        // write the data to a file
-        for (int i = 1; i <= num; i++) {
-            myFile << i << ",";
-            myFile << binaryWorstCase(i) << endl;
-            printf("%.8f\n", binaryWorstCase(i));
-        }
-    
-        // close the file
-        myFile.close();
-    
-        return 0;
-    }
+    ```rb
+    def find_largest(collection)
+     largest = collection[0] # only runs once (constant)
+     collection.length.times do |i| # runs for every element of collection O(N)
+       if collection[i] >= largest # worst case, this runs for every element after 0, so another O(N)
+         largest = collection[i]
+       end
+     end
+     largest
+    end
     ```
+    
+3.  The big O notation is O(N^2).
+    ```rb
+    
+    def find_largest(collection)
+     largest = collection[0][0] # only runs once (constant) O(1) - negligible, considering greater complexity
+     collection.length.times do |i| # runs for every element of collection, linear, O(N)
+       subcollection = collection[i] # runs once (constant) O(1) - negligible, considering greater complexity
+       subcollection.length.times do |i| # runs for every element in the second array, linear, O(N) - makes N^2.
+         if subcollection[i] >= largest # may run for every element in the sub array, worst case O(N) - makes 2N^2 (I think) - same as N^2.
+           largest = subcollection[i]
+         end
+       end
+     end
+     largest
+    end
+    ```
+    
+4. The big O notation is O(2^(N)).
+    ```rb
+   def numbers(n)
+     if (n == 0) # runs once. if it does, returns out of function - constant O(1)
+       return 0
+     elsif (n == 1) # runs once. if it does, returns out of function - constant O(1)
+       return 1
+     else # 
+       return numbers(n-1) + numbers(n-2) # it calls itself twice 2, and multiples times, depending on the size of N, caused O(2^N)?
+     end
+    end 
+    ```
+    
+5.  The big O notation is O(N);
+    ```rb
+    def iterative(n)
+     num1 = 0 # constant O(1)
+     num2 = 1 # constant O(1)
+    
+     i = 0 # constant O(1)
+     while i < n-1 # runs n times (actually, n-1, but we forget the -1)
+       tmp = num1 + num2 # constant
+       num1 = num2 # constant
+       num2 = tmp # const
+       i+=1 # const
+     end
+    
+     num2
+    end
+    ```
+    
+6. The big O complexity is 2N^N
 
-    - The .csv file can be read in any graphing application (I used Excel, for expediency). 
-
-9. The graph showing 200 iterations of the binary search worst cases: 
-    ![See Chart](../9_binary_worst_case_graph.png)
-
-10. The Big-O of binary search is O(logN)
-
-11. The big-Omega of binary search is O(1)
-
-12. The big-theta of binary search is O(logN) 
+    ```rb
+    def sort(collection, from=0, to=nil)
+     if to == nil # constant, or less than 
+       # Sort the whole collection, by default
+       to = collection.count - 1 # constant
+     end
+    
+     if from >= to # constant, or less than
+       # Done sorting
+       return
+     end
+    
+     # Take a pivot value, at the far left
+     pivot = collection[from] # constant
+    
+     # Min and Max pointers
+     min = from # constant
+     max = to # constant
+    
+     # Current free slot
+     free = min # constant
+    
+     while min < max # depends on the values of min and max (from and to)- so, N
+       if free == min # Evaluate collection[max]
+         if collection[max] <= pivot # Smaller than pivot, must move
+           collection[free] = collection[max]
+           min += 1
+           free = max
+         else
+           max -= 1
+         end
+       elsif free == max # Evaluate collection[min]
+         if collection[min] >= pivot # Bigger than pivot, must move
+           collection[free] = collection[min]
+           max -= 1
+           free = min
+         else
+           min += 1
+         end
+       else
+         raise "Inconsistent state"
+       end
+     end
+    
+     collection[free] = pivot # constant
+    
+     sort collection, from, free - 1 # recursive, causes ^N
+     sort collection, free + 1, to # 2 second recursion, adds 2 in front of the base N.
+    
+     collection
+    end
+    
+    ```
